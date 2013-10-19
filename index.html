@@ -19,7 +19,7 @@
 			  	width:120px;
 			  	border-radius:5px 0 0 5px;
 				margin-bottom:10px;
-				display:block;
+				display:none;
 				font-family: "Source Sans Pro", "Helvetica Neue", sans-serif
 			  }
 			  ul#index li:hover {
@@ -43,7 +43,10 @@
 			    "Google": ggl
 			};
 			markers = [
-				{name: "Mile End Location",lat:45.526194,lon:-73.604477}
+				{name: "Fleurissant d'Outremont",lat:45.517158,lon:-73.625997},
+				{name: "Habiter Dumoulin", lat:45.543599,lon:-73.621727},
+				{name: "Maison de L'Enfance", lat:45.51803,lon:-73.68213},
+				{name: "Bombardier", lat:45.476819,lon:-73.730303}
 			]
 			$.each(markers, function(i, data){
 				var marker = new L.Marker(new L.LatLng(data.lat, data.lon));
