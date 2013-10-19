@@ -8,14 +8,14 @@
 		  <script src="jquery.js"></script>
 		  <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 		  <style>
-			  #map { height: 480px; }
+			  #map { height: 600px; }
 		  </style>
 
 	</head>
 	<body>
 		 <div id="map"></div>
 		 <script>
-		  	var map = L.map('map').setView([45.5216, -73.5754], 13);
+		  	var map = L.map('map').setView([45.506046, -73.559696], 17);
 		  	L.tileLayer('http://{s}.tile.cloudmade.com/02e852c715de4f3b8df84caf5136256f/997/256/{z}/{x}/{y}.png', {
 			    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
 			    maxZoom: 18
@@ -32,14 +32,26 @@
 				layer.bindPopup(popupContent);
 			}
 
+			coldStyle = {
+				color: "#559f30"
+			}
 
-			$.getJSON('data/ilotschaleur_region06.geojson', function(data){
-				console.log(data.features[0].geometry.coordinates.length)
-				console.log(data)
-				L.geoJson(data).addTo(map)
-				$.getJSON('data/ilotsfraicheur_region06.geojson', function(data){
-					L.geoJson(data).addTo(map)
-				})
+			hotStyle = {
+				color: "#b44744",
+		        fillOpacity: 0.5,
+		        weight: 0
+			}
+
+			$.getJSON('data/ilotschaleur_region06.geojson', function(hotData){
+				console.log(hotData.features[0].geometry.coordinates.length)
+				// console.log(data)
+				L.geoJson(hotData, {style:hotStyle}).addTo(map)
+				// $.getJSON('data/ilotsfraicheur_region06.geojson', function(coolData){
+				// 	console.log(coolData.features[0].geometry.coordinates.length)
+				// 	console.log(coolData)
+
+				// 	L.geoJson(coolData, {style:coldStyle}).addTo(map)
+				// })
 
 			});
 		  </script>
