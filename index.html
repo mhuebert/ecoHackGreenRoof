@@ -20,8 +20,27 @@
 			    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
 			    maxZoom: 18
 			}).addTo(map);
-			$.getJSON('ilotschaleur_region06.geojson', function(data){
+
+		  	function onEachFeature(feature, layer) {
+				var popupContent = "<p>I started out as a GeoJSON " +
+						feature.geometry.type + ", but now I'm a Leaflet vector!</p>";
+
+				if (feature.properties && feature.properties.popupContent) {
+					popupContent += feature.properties.popupContent;
+				}
+
+				layer.bindPopup(popupContent);
+			}
+
+
+			$.getJSON('data/ilotschaleur_region06.geojson', function(data){
 				console.log(data.features[0].geometry.coordinates.length)
+				console.log(data)
+				L.geoJson(data).addTo(map)
+				$.getJSON('data/ilotsfraicheur_region06.geojson', function(data){
+					L.geoJson(data).addTo(map)
+				})
+
 			});
 		  </script>
 	</body>
