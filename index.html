@@ -11,11 +11,29 @@
 		  <script src="leaflet-google.js"></script>
 		  <style>
 			  #map { height: 600px; }
+			  ul#index {z-index:1000;position:absolute;top:60px;right:0;}
+			  ul#index li {
+			  	background:white;
+			  	padding:10px 15px;
+			  	display:inline-block;
+			  	width:120px;
+			  	border-radius:5px 0 0 5px;
+				margin-bottom:10px;
+				display:block;
+				font-family: "Source Sans Pro", "Helvetica Neue", sans-serif
+			  }
+			  ul#index li:hover {
+			  	cursor: pointer;
+			  }
 		  </style>
 
 	</head>
 	<body>
-		 <div id="map"></div>
+		<ul id="index">
+		 	</ul>
+		 <div style="position:relative;" id="map">
+		 	
+		 </div>
 		 <script>
 		  	var map = L.map('map').setView([45.506046, -73.559696], 17);
 			var ggl = new L.Google()
@@ -24,7 +42,22 @@
 		  	var baseMaps = {
 			    "Google": ggl
 			};
-		  	
+			markers = [
+				{name: "Mile End Location",lat:45.526194,lon:-73.604477}
+			]
+			$.each(markers, function(i, data){
+				var marker = new L.Marker(new L.LatLng(data.lat, data.lon));
+				map.addLayer(marker);
+				// map.setView(new L.LatLng(data.lat, data.lon),17);
+				$("#index").append($("<li data-lat="+data.lat+" data-lon='"+data.lon+"' >"+data.name+"</li>"))
+			});
+			
+		  	$("#index li").on("click", function(e){
+		  		var lat = parseFloat($(this).attr("data-lat"));
+		  		var lon = parseFloat($(this).attr("data-lon"));
+		  		map.setView(new L.LatLng(lat, lon),17);
+		  		return false;
+		  	})
 		 //  	L.tileLayer('http://{s}.tile.cloudmade.com/02e852c715de4f3b8df84caf5136256f/997/256/{z}/{x}/{y}.png', {
 			//     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
 			//     maxZoom: 18
@@ -49,14 +82,6 @@
 				    "hotZones": hotZones
 				};
 				L.control.layers(baseMaps, overlayMaps).addTo(map)
-				// L.geoJson(hotData, {style:hotStyle}).addTo(map)
-				
-				// $.getJSON('data/ilotsfraicheur_region06.geojson', function(coolData){
-				// 	console.log(coolData.features[0].geometry.coordinates.length)
-				// 	console.log(coolData)
-
-				// 	L.geoJson(coolData, {style:coldStyle}).addTo(map)
-				// })
 
 			});
 		  </script>
